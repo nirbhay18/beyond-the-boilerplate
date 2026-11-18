@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WordPress Plugin Rules File Generator · Beyond the Boilerplate</title>
+<meta name="description" content="Generate an AGENTS.md, CLAUDE.md, Cursor or Copilot rules file for your WordPress plugin. Names the exact WordPress functions you expect.">
+<meta name="theme-color" content="#14202E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314202E'/%3E%3Cpath d='M18 22l-8 10 8 10M46 22l8 10-8 10' stroke='%23F0894F' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M36 18l-8 28' stroke='%238FA6FF' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="../">Beyond the <span>Boilerplate</span></a>
+    <ul>
+      <li><a href="../#rules">Rules file</a></li>
+      <li><a href="../#kit">Starter kit</a></li>
+      <li><a href="../#review">Review</a></li>
+      <li><a href="../#further">Go further</a></li>
+    </ul>
+    <a class="btn btn-ghost btn-small" style="color:#F5F3EE" href="../">← Talk site</a>
+  </div>
+</nav>
+
+<header class="gen-hero">
+  <div class="wrap">
+    <p class="eyebrow">Rules file generator</p>
+    <h1>Tell your AI which WordPress you expect.</h1>
+    <p>Fill in your plugin, tick what it uses, pick your tool. You get a short rules file that names the exact functions, commands and limits, so the first draft is closer to something you’d ship.</p>
+  </div>
+</header>
+
+<main class="wrap gen">
+  <form id="gen-form" autocomplete="off" onsubmit="return false">
+    <div class="panel">
+      <h2>1 · Your plugin</h2>
+      <div class="field">
+        <label for="name">Plugin name</label>
+        <input id="name" value="Testimonials">
+      </div>
+      <div class="two">
+        <div class="field">
+          <label for="slug">Slug / text domain</label>
+          <input id="slug" value="testimonials" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="prefix">Prefix</label>
+          <input id="prefix" value="tstm" spellcheck="false">
+        </div>
+      </div>
+      <div class="field">
+        <label for="ns">PHP namespace <span class="hint">(optional)</span></label>
+        <input id="ns" value="Acme\Testimonials" spellcheck="false">
+      </div>
+      <div class="two">
+        <div class="field">
+          <label for="php">Minimum PHP</label>
+          <select id="php"><option>7.4</option><option selected>8.0</option><option>8.1</option><option>8.2</option><option>8.3</option></select>
+        </div>
+        <div class="field">
+          <label for="wp">Minimum WordPress</label>
+          <select id="wp"><option>6.4</option><option selected>6.5</option><option>6.6</option><option>6.7</option><option>6.8</option><option>6.9</option><option>7.0</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>2 · What it uses</h2>
+      <div class="checks">
+        <label><input type="checkbox" id="f-settings" checked> Settings page</label>
+        <label><input type="checkbox" id="f-ajax" checked> AJAX</label>
+        <label><input type="checkbox" id="f-public"> Public forms</label>
+        <label><input type="checkbox" id="f-rest"> REST API</label>
+        <label><input type="checkbox" id="f-blocks"> Blocks</label>
+        <label><input type="checkbox" id="f-cpt"> Custom post types</label>
+        <label><input type="checkbox" id="f-tables" checked> Custom DB tables</label>
+        <label><input type="checkbox" id="f-cron"> Cron jobs</label>
+        <label><input type="checkbox" id="f-remote"> External APIs</label>
+        <label><input type="checkbox" id="f-woo"> WooCommerce</label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>3 · Your checks</h2>
+      <div class="checks">
+        <label><input type="checkbox" id="t-phpcs" checked> PHPCS + WPCS</label>
+        <label><input type="checkbox" id="t-phpstan" checked> PHPStan</label>
+        <label><input type="checkbox" id="t-phpunit"> PHPUnit</label>
+        <label><input type="checkbox" id="t-pcp" checked> Plugin Check</label>
+        <label><input type="checkbox" id="t-wpenv"> wp-env</label>
+        <label><input type="checkbox" id="t-org" checked> WordPress.org</label>
+      </div>
+      <p class="hint" style="font-size:13px;color:var(--muted);margin:8px 0 0">“WordPress.org” adds the Plugin Directory rules.</p>
+    </div>
+
+    <div class="panel">
+      <h2>4 · Your tool</h2>
+      <div class="formats" role="radiogroup" aria-label="Output format">
+        <label><input type="radio" name="fmt" value="agents" checked><b>AGENTS.md</b><code>most agents</code></label>
+        <label><input type="radio" name="fmt" value="claude"><b>Claude Code</b><code>CLAUDE.md</code></label>
+        <label><input type="radio" name="fmt" value="cursor"><b>Cursor</b><code>.cursor/rules/wordpress.mdc</code></label>
+        <label><input type="radio" name="fmt" value="copilot"><b>Copilot</b><code>.github/copilot-instructions.md</code></label>
+      </div>
+      <label class="checks" style="display:flex;margin-top:14px"><input type="checkbox" id="o-jokes" checked> Keep the jokes in “Never”</label>
+    </div>
+  </form>
+
+  <div class="output">
+    <div class="code">
+      <div class="code-head">
+        <span class="file" id="out-file">AGENTS.md</span>
+        <span class="tools">
+          <button type="button" id="copy">Copy</button>
+          <button type="button" id="download">Download</button>
+        </span>
+      </div>
+      <pre id="out" aria-live="polite"></pre>
+    </div>
+    <div class="stats" style="margin-top:10px;color:var(--muted)"><span id="lines"></span><span id="where"></span></div>
+    <div class="warn"><b>Read it before you commit it.</b> This is a starting point, not a certificate. Delete any line that doesn’t apply, and add the project facts only you know: where things live, what never to touch, how you release.</div>
+    <p class="note">Want deeper, maintained WordPress knowledge for your agent too? Pair this with the official <a href="https://github.com/WordPress/agent-skills">WordPress Agent Skills</a>.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>From <b>“Beyond the Boilerplate”</b>, WordCamp Bengaluru 2026 · <a href="../">Talk site</a></div>
+    <div>Runs entirely in your browser. Nothing you type is sent anywhere.</div>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/generator.js"></script>
+</body>
+</html>

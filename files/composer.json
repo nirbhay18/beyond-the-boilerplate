@@ -1,0 +1,36 @@
+{
+	"name": "my-vendor/my-plugin",
+	"description": "A WordPress plugin.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"wp-coding-standards/wpcs": "^3.1",
+		"phpcompatibility/phpcompatibility-wp": "*",
+		"phpstan/phpstan": "^2.1",
+		"phpstan/extension-installer": "^1.4",
+		"szepeviktor/phpstan-wordpress": "^2.0",
+		"phpunit/phpunit": "^9.6"
+	},
+	"autoload": {
+		"psr-4": {
+			"MyVendor\\MyPlugin\\": "src/"
+		}
+	},
+	"scripts": {
+		"lint": "phpcs",
+		"lint:fix": "phpcbf",
+		"analyse": "phpstan analyse --memory-limit=1G",
+		"test": "phpunit"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpstan/extension-installer": true
+		},
+		"sort-packages": true
+	}
+}

@@ -1,0 +1,6 @@
+parameters:
+	level: 5
+	paths:
+		- my-plugin.php
+		- src/
+	# Raise the level over time. 5 is a realistic start for AI-written code.

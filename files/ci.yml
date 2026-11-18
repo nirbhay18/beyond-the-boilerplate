@@ -1,0 +1,39 @@
+# Save as .github/workflows/ci.yml
+# Every push and pull request runs the same gauntlet, AI-written code included.
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+          coverage: none
+
+      - run: composer install --no-interaction --no-progress
+
+      - name: Coding standards (PHPCS + WPCS)
+        run: composer lint
+
+      - name: Static analysis (PHPStan)
+        run: composer analyse
+
+  plugin-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Official WordPress action. Results show up as file annotations on the PR.
+      # For releases, point build-dir at your built plugin folder so dev files
+      # (composer.json, phpcs.xml.dist, tests) are not checked.
+      - name: Plugin Check
+        uses: wordpress/plugin-check-action@v1

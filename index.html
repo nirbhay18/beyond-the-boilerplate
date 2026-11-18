@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond the Boilerplate · WordCamp Bengaluru 2026</title>
+<meta name="description" content="Anyone can code now. Shipping is another story. Rules file generator, starter kit and review checklist for building WordPress plugins with AI.">
+<meta property="og:title" content="Beyond the Boilerplate: Building High-Quality WordPress Plugins with AI">
+<meta property="og:description" content="Anyone can code now. Shipping is another story. Rules file generator, starter kit and review checklist.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#14202E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314202E'/%3E%3Cpath d='M18 22l-8 10 8 10M46 22l8 10-8 10' stroke='%23F0894F' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M36 18l-8 28' stroke='%238FA6FF' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top">Beyond the <span>Boilerplate</span></a>
+    <ul>
+      <li><a href="#steps">The idea</a></li>
+      <li><a href="#rules">Rules file</a></li>
+      <li><a href="#kit">Starter kit</a></li>
+      <li><a href="#review">Review</a></li>
+      <li><a href="#further">Go further</a></li>
+    </ul>
+    <a class="btn btn-primary btn-small" href="generator/">Generator</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">WordCamp Bengaluru 2026 · Xavier Hall</p>
+    <h1><span class="muted">Anyone can code now.</span><span class="hot">Shipping is another story.</span></h1>
+    <p class="lede">Everything from the talk <b>“Beyond the Boilerplate: Building High-Quality WordPress Plugins with AI”</b>: a rules file you can drop into your plugin, a starter kit that enforces it, and the checklist I use before anything AI-written gets merged.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="generator/">Generate your rules file →</a>
+      <!-- TODO: replace with your slides link (PDF or web version). -->
+      <a class="btn btn-ghost" href="#slides-link-todo">Get the slides</a>
+    </div>
+    <div class="meta">
+      <div><b>Nirbhay Singh Rao</b>Full Stack Developer, Elementor</div>
+      <div><b>Sunday, 22 November 2026</b>10:30 AM IST</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="steps">
+  <div class="wrap">
+    <p class="eyebrow">The 30-second version</p>
+    <h2>Same four steps, two very different jobs</h2>
+    <p class="intro">AI made the cheap version of every step free. Shipping still needs the professional one.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <p class="cheap">Ask for a plugin</p>
+        <h3>Prompt with constraints</h3>
+        <p>Give the AI the standards, threat model and prefixes it can’t guess. Write them down once, in a rules file.</p>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <p class="cheap">Get 1,200 lines back</p>
+        <h3>Plan the structure</h3>
+        <p>Ask for the file tree and class responsibilities first. Approve, then build one file at a time.</p>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <p class="cheap">Press Run and hope</p>
+        <h3>Automate the checks</h3>
+        <p>PHPCS with WordPress Coding Standards, PHPStan and Plugin Check on every change. Feed failures back to the model.</p>
+      </div>
+      <div class="step">
+        <div class="n">4</div>
+        <p class="cheap">Say “looks good to me”</p>
+        <h3>Review like a stranger’s PR</h3>
+        <p>Tools catch patterns, not intent. A human traces input, output, access and data before anything merges.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="bingo">
+  <div class="wrap">
+    <p class="eyebrow">Audit your last AI-written plugin</p>
+    <h2>Red-flag bingo</h2>
+    <p class="intro">Tap every square you’ve seen in AI-generated PHP. Three in a row and somebody owes a security patch.</p>
+    <div class="bingo">
+      <button type="button">$_POST straight into SQL</button>
+      <button type="button">echo $whatever;</button>
+      <button type="button" class="text">No nonce. No capability check. No problem?</button>
+      <button type="button">// TODO: add security later</button>
+      <button type="button" class="free" aria-disabled="true"><small>Free space</small>“It worked on the first run”</button>
+      <button type="button">'permission_callback' =&gt; '__return_true'</button>
+      <button type="button" class="text">One file. 1,200 lines. Zero classes.</button>
+      <button type="button">function save() // surely unique</button>
+      <button type="button">error_reporting( 0 ); // peace of mind</button>
+    </div>
+    <p class="bingo-status" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Step 1 · Write the rules down once</p>
+      <h2>A rules file your AI reads on every request</h2>
+      <p class="intro" style="margin-bottom:24px">Most AI coding tools load a project instructions file automatically. The name depends on the tool, the idea doesn’t: name the exact functions you expect, the commands to run, and what “done” means.</p>
+      <table class="fns">
+        <tr><th>Tool</th><th>File</th></tr>
+        <tr><td>Most agents (Codex, Copilot, Cursor, and others)</td><td><code>AGENTS.md</code></td></tr>
+        <tr><td>Claude Code</td><td><code>CLAUDE.md</code></td></tr>
+        <tr><td>Cursor</td><td><code>.cursor/rules/*.mdc</code></td></tr>
+        <tr><td>GitHub Copilot</td><td><code>.github/copilot-instructions.md</code></td></tr>
+      </table>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:28px">
+        <a class="btn btn-primary" href="generator/">Generate one for your plugin →</a>
+        <a class="btn btn-ghost" href="files/AGENTS.md" download>Download the full template</a>
+      </div>
+      <p class="note">Rule of thumb: if a line wouldn’t change what the model writes, delete it. Short files get followed.</p>
+    </div>
+    <div class="code">
+      <div class="code-head"><span class="file">AGENTS.md (excerpt)</span><span class="tools"><button type="button" data-copy="rules-excerpt">Copy</button></span></div>
+<pre id="rules-excerpt"><span class="k">## Security (non-negotiable)</span>
+- Input: wp_unslash() first, then sanitize:
+  sanitize_text_field(), absint(), sanitize_email()
+- Output: escape late, for the context:
+  <span class="h">esc_html()</span>, <span class="h">esc_attr()</span>, <span class="h">esc_url()</span>, wp_kses_post()
+- Every state change: nonce AND capability.
+  check_admin_referer() + <span class="h">current_user_can()</span>
+- SQL only via <span class="h">$wpdb-&gt;prepare()</span> or insert().
+- REST routes get a real permission_callback.
+
+<span class="k">## Workflow</span>
+- Propose the file tree first. Wait.
+- One class per file, PSR-4, in src/.
+- Run <span class="h">composer lint</span> before saying "done".
+
+<span class="k">## Never</span>
+- Write "// TODO: add security later". We both know.
+- Silence errors with @ or error_reporting( 0 ).</pre>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="kit">
+  <div class="wrap">
+    <p class="eyebrow">Step 3 · Make the checks non-optional</p>
+    <h2>The starter kit</h2>
+    <p class="intro">Drop these into your plugin’s root. Replace <code>my-plugin</code>, <code>myplugin</code> and <code>MyVendor\MyPlugin</code> with your own. Then <code>composer install</code> and <code>composer lint</code>.</p>
+    <div class="kit">
+
+      <details class="kit-item" open>
+        <summary><div><h3>phpcs.xml.dist</h3><p>WordPress Coding Standards with your text domain, prefixes and minimum versions.</p></div></summary>
+        <div class="code">
+          <div class="code-head"><span class="file">phpcs.xml.dist</span><span class="tools"><button type="button" data-copy="f-phpcs">Copy</button><a href="files/phpcs.xml.dist" download>Download</a></span></div>
+<pre id="f-phpcs">&lt;?xml version="1.0"?&gt;
+&lt;ruleset name="My Plugin"&gt;
+	&lt;file&gt;.&lt;/file&gt;
+	&lt;exclude-pattern&gt;/vendor/*&lt;/exclude-pattern&gt;
+	&lt;exclude-pattern&gt;/node_modules/*&lt;/exclude-pattern&gt;
+	&lt;exclude-pattern&gt;/build/*&lt;/exclude-pattern&gt;
+	&lt;exclude-pattern&gt;/tests/*&lt;/exclude-pattern&gt;
+	&lt;arg name="extensions" value="php"/&gt;
+	&lt;arg value="sp"/&gt;
+
+	<span class="c">&lt;!-- Minimum versions you support. --&gt;</span>
+	&lt;config name="minimum_wp_version" value="6.5"/&gt;
+	&lt;config name="testVersion" value="7.4-"/&gt;
+
+	<span class="c">&lt;!-- Core + Docs + Extra, security sniffs included. --&gt;</span>
+	&lt;rule ref="WordPress"/&gt;
+	&lt;rule ref="PHPCompatibilityWP"/&gt;
+
+	&lt;rule ref="WordPress.WP.I18n"&gt;
+		&lt;properties&gt;
+			&lt;property name="text_domain" type="array"&gt;
+				&lt;element value="<span class="h">my-plugin</span>"/&gt;
+			&lt;/property&gt;
+		&lt;/properties&gt;
+	&lt;/rule&gt;
+
+	&lt;rule ref="WordPress.NamingConventions.PrefixAllGlobals"&gt;
+		&lt;properties&gt;
+			&lt;property name="prefixes" type="array"&gt;
+				&lt;element value="<span class="h">myplugin</span>"/&gt;
+				&lt;element value="<span class="h">MyVendor\MyPlugin</span>"/&gt;
+			&lt;/property&gt;
+		&lt;/properties&gt;
+	&lt;/rule&gt;
+
+	<span class="c">&lt;!-- PSR-4 class files in src/. --&gt;</span>
+	&lt;rule ref="WordPress.Files.FileName"&gt;
+		&lt;exclude-pattern&gt;/src/*&lt;/exclude-pattern&gt;
+	&lt;/rule&gt;
+&lt;/ruleset&gt;</pre>
+        </div>
+      </details>
+
+      <details class="kit-item">
+        <summary><div><h3>composer.json</h3><p>Dev dependencies plus <code>lint</code>, <code>lint:fix</code>, <code>analyse</code> and <code>test</code> scripts.</p></div></summary>
+        <div class="code">
+          <div class="code-head"><span class="file">composer.json</span><span class="tools"><button type="button" data-copy="f-composer">Copy</button><a href="files/composer.json" download>Download</a></span></div>
+<pre id="f-composer">{
+	"name": "my-vendor/my-plugin",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": { "php": "&gt;=7.4" },
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"wp-coding-standards/wpcs": "^3.1",
+		"phpcompatibility/phpcompatibility-wp": "*",
+		"phpstan/phpstan": "^2.1",
+		"phpstan/extension-installer": "^1.4",
+		"szepeviktor/phpstan-wordpress": "^2.0",
+		"phpunit/phpunit": "^9.6"
+	},
+	"autoload": { "psr-4": { "MyVendor\\MyPlugin\\": "src/" } },
+	"scripts": {
+		"lint": "phpcs",
+		"lint:fix": "phpcbf",
+		"analyse": "phpstan analyse --memory-limit=1G",
+		"test": "phpunit"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpstan/extension-installer": true
+		}
+	}
+}</pre>
+        </div>
+      </details>
+
+      <details class="kit-item">
+        <summary><div><h3>phpstan.neon.dist</h3><p>Static analysis with WordPress stubs. Start at level 5, raise it over time.</p></div></summary>
+        <div class="code">
+          <div class="code-head"><span class="file">phpstan.neon.dist</span><span class="tools"><button type="button" data-copy="f-phpstan">Copy</button><a href="files/phpstan.neon.dist" download>Download</a></span></div>
+<pre id="f-phpstan">parameters:
+	level: 5
+	paths:
+		- my-plugin.php
+		- src/</pre>
+        </div>
+      </details>
+
+      <details class="kit-item">
+        <summary><div><h3>.github/workflows/ci.yml</h3><p>Lint, analyse and run the official Plugin Check action on every push and pull request.</p></div></summary>
+        <div class="code">
+          <div class="code-head"><span class="file">.github/workflows/ci.yml</span><span class="tools"><button type="button" data-copy="f-ci">Copy</button><a href="files/ci.yml" download>Download</a></span></div>
+<pre id="f-ci">name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - name: Coding standards (PHPCS + WPCS)
+        run: composer lint
+      - name: Static analysis (PHPStan)
+        run: composer analyse
+
+  plugin-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Plugin Check
+        uses: wordpress/plugin-check-action@v1</pre>
+        </div>
+      </details>
+
+      <details class="kit-item">
+        <summary><div><h3>The feedback loop</h3><p>The trick that saves the most time: the linter report is the next prompt.</p></div></summary>
+        <div class="code">
+          <div class="code-head"><span class="file">terminal</span><span class="tools"><button type="button" data-copy="f-loop">Copy</button></span></div>
+<pre id="f-loop"><span class="c"># 1. Let phpcbf fix the formatting noise</span>
+composer lint:fix
+
+<span class="c"># 2. Hand what's left back to your AI tool, e.g.:</span>
+<span class="k">&gt;</span> Run composer lint. Fix every reported error.
+<span class="k">&gt;</span> Don't rewrite unrelated code. Run it again until it's clean.
+
+<span class="c"># 3. Plugin Check, before anything ships</span>
+wp plugin check my-plugin</pre>
+        </div>
+      </details>
+
+    </div>
+    <p class="note">Tested with WordPress Coding Standards: the talk’s draft-1 testimonials handler fails with 16 errors; the fixed draft 2 passes with 0 errors and one expected warning for its custom-table insert.</p>
+  </div>
+</section>
+
+<section class="dark" id="review">
+  <div class="wrap">
+    <p class="eyebrow">Step 4 · Anyone can say “looks good.” Shipping needs a review.</p>
+    <h2>Four questions before every merge</h2>
+    <p class="intro" style="color:var(--soft)">Don’t read AI code top to bottom. Trace these four things. They map closely to what a security audit asks.</p>
+    <div class="rows">
+      <div class="row"><h3>Input</h3><p>Is every <code>$_GET</code> and <code>$_POST</code> unslashed and sanitized? Is it validated against what you actually allow, not just cleaned?</p></div>
+      <div class="row"><h3>Output</h3><p>Is it escaped at the moment it’s printed, with the function for that context: <code>esc_html()</code>, <code>esc_attr()</code>, <code>esc_url()</code>?</p></div>
+      <div class="row"><h3>Access</h3><p>A nonce on every state change? <code>current_user_can()</code> before acting? A <code>permission_callback</code> that isn’t just <code>__return_true</code>?</p></div>
+      <div class="row"><h3>Data</h3><p><code>$wpdb-&gt;prepare()</code> on every query? Does <code>uninstall.php</code> clean up options, tables and cron events?</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="further">
+  <div class="wrap">
+    <p class="eyebrow">Go further</p>
+    <h2>Tools and repos worth your time</h2>
+    <p class="intro">This site is a starting point. These go deeper, and the first one is maintained by the WordPress project itself.</p>
+    <div class="cards">
+      <a class="card featured" href="https://github.com/WordPress/agent-skills">
+        <span class="tag">Official · WordPress</span>
+        <h3>WordPress Agent Skills</h3>
+        <p>Portable skills that teach AI coding assistants how to build WordPress properly: plugin development, REST API, blocks, PHPStan, Plugin Directory guidelines, Playground and more. Works with Claude Code, Codex, Copilot and Cursor.</p>
+        <p><code>npx skills add WordPress/agent-skills --skill wp-plugin-development</code></p>
+        <span class="go">github.com/WordPress/agent-skills →</span>
+      </a>
+      <a class="card" href="https://github.com/WordPress/plugin-check">
+        <span class="tag tool">Official · Tool</span>
+        <h3>Plugin Check</h3>
+        <p>The checks the plugin review team cares about, as a plugin and a WP-CLI command.</p>
+        <span class="go">github.com/WordPress/plugin-check →</span>
+      </a>
+      <a class="card" href="https://github.com/WordPress/plugin-check-action">
+        <span class="tag tool">Official · GitHub Action</span>
+        <h3>Plugin Check Action</h3>
+        <p>Runs Plugin Check in CI and posts results as annotations on your pull request.</p>
+        <span class="go">github.com/WordPress/plugin-check-action →</span>
+      </a>
+      <a class="card" href="https://github.com/WordPress/WordPress-Coding-Standards">
+        <span class="tag tool">Official · Tool</span>
+        <h3>WordPress Coding Standards</h3>
+        <p>The PHPCS rules behind the starter kit, including every security sniff. The wiki lists the properties to customise.</p>
+        <span class="go">github.com/WordPress/WordPress-Coding-Standards →</span>
+      </a>
+      <a class="card" href="https://github.com/szepeviktor/phpstan-wordpress">
+        <span class="tag tool">Community · Tool</span>
+        <h3>PHPStan for WordPress</h3>
+        <p>WordPress stubs and rules so PHPStan understands hooks, <code>$wpdb</code> and core functions.</p>
+        <span class="go">github.com/szepeviktor/phpstan-wordpress →</span>
+      </a>
+      <a class="card" href="https://www.npmjs.com/package/wordpress-agent-kit">
+        <span class="tag community">Community</span>
+        <h3>WordPress Agent Kit</h3>
+        <p>A starter kit that installs an <code>AGENTS.md</code> template, an agent persona and WordPress skills, including the official ones, into your project.</p>
+        <span class="go">npm: wordpress-agent-kit →</span>
+      </a>
+      <a class="card" href="https://github.com/PatrickJS/awesome-cursorrules">
+        <span class="tag community">Community</span>
+        <h3>awesome-cursorrules</h3>
+        <p>A huge collection of Cursor rules, with a few WordPress entries. Good for ideas; check each rule before you trust it.</p>
+        <span class="go">github.com/PatrickJS/awesome-cursorrules →</span>
+      </a>
+      <a class="card" href="https://agents.md">
+        <span class="tag">Format</span>
+        <h3>AGENTS.md</h3>
+        <p>The open format behind the rules file: one Markdown file at your repo root that many agents read.</p>
+        <span class="go">agents.md →</span>
+      </a>
+    </div>
+    <p class="note">Background on Agent Skills and how to contribute: the <a href="https://make.wordpress.org/ai/handbook/projects/agent-skills/">Make WordPress AI handbook</a>. Want to see real rules files? Plenty of plugins on WordPress.org now ship an <code>AGENTS.md</code>. Imagify’s is a good, strict example: <a href="https://cdn.jsdelivr.net/wp/imagify/trunk/AGENTS.md">read it here</a>.</p>
+  </div>
+</section>
+
+</main>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow" style="color:#E3E9FF">Anyone can code. Everyone in this room can review.</p>
+    <h2>Make your rules file in two minutes</h2>
+    <p>Pick your tool, tick what your plugin uses, and copy a rules file that names the exact WordPress functions you expect.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:14px">
+      <a class="btn btn-primary" href="generator/">Open the rules file generator →</a>
+      <a class="btn btn-ghost" href="files/AGENTS.md" download>Or grab the full template</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>Nirbhay Singh Rao</b> · Full Stack Developer, Elementor<br>
+      <a href="https://x.com/nirbhay_18">@nirbhay_18</a> · <a href="https://github.com/nirbhay18">GitHub</a> · <a href="#slides-link-todo">Slides</a> · <a href="https://bengaluru.wordcamp.org/2026/session/beyond-the-boilerplate-building-high-quality-wordpress-plugins-with-ai/">Session page</a>
+    </div>
+    <div>Code samples and starter files: GPL-2.0-or-later.<br>Found a wrong rule? <a href="https://github.com/nirbhay18/beyond-the-boilerplate/issues">Open an issue</a>.</div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>

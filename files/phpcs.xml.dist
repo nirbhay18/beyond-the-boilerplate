@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<ruleset name="My Plugin">
+	<description>WordPress Coding Standards for this plugin.</description>
+
+	<!-- What to scan. -->
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/build/*</exclude-pattern>
+	<exclude-pattern>/tests/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+	<arg name="parallel" value="8"/>
+
+	<!-- Minimum versions you support. -->
+	<config name="minimum_wp_version" value="6.5"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<!-- The full WordPress standard: Core + Docs + Extra (security sniffs included). -->
+	<rule ref="WordPress"/>
+
+	<!-- PHP version compatibility. -->
+	<rule ref="PHPCompatibilityWP"/>
+
+	<!-- Your text domain: every __() call must use it. -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="my-plugin"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Your prefixes: every global function, class, constant and hook must use one. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="myplugin"/>
+				<element value="MyVendor\MyPlugin"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- PSR-4 class files (src/Admin/SettingsPage.php) instead of class-settings-page.php. -->
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>/src/*</exclude-pattern>
+	</rule>
+</ruleset>
